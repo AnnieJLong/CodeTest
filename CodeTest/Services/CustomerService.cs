@@ -80,9 +80,10 @@ namespace CodeTest.Services
             }
 
             var balance = existAccount.Balance;
-
+            amount = amount * 0.999;
             existAccount.Balance = balance + amount;
             _context.Account.Update(existAccount);
+            _context.SaveChanges();
         }
 
         public void TransferMoney(string ibanSend, string ibanReceived, double amount)
@@ -109,9 +110,10 @@ namespace CodeTest.Services
 
             sendAccount.Balance = balanceSend - amount;
             _context.Account.Update(sendAccount);
-
+            
             receivedAccount.Balance = balanceReceived + amount;
             _context.Account.Update(receivedAccount);
+            _context.SaveChanges();
         }
     }
 }

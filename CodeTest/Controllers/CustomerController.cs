@@ -112,5 +112,26 @@ namespace CodeTest.Controllers
             }
         }
 
+        // POST: api/transfer
+        [HttpPost]
+        [Route("api/transfer/{iban}")]
+        public IActionResult TransferAmount([FromRoute] string iban, [FromBody] Account account)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                _customerService.TransferMoney(account.IBAN, iban, account.Balance);
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
